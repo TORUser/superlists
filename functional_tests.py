@@ -33,12 +33,18 @@ class NewVisitorTest(unittest.TestCase):
 		
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
+
+		# import time
+		# time.sleep(10)
+
 		table = self.browser.find_element_by_id('id_list_table')
 		rows = table.find_elements_by_tag_name('tr')
+		self.assertIn('1: Buy apples', [row.text for row in rows])
+		"""
 		self.assertTrue(
-			any(row.text == '1: Buy apples' for row in rows), "New to-do item did not appear in table"
+			any(row.text == '1: Buy apples' for row in rows), "New to-do item did not appear in table -- its text was:\n%s" % (table.text,)
 		)
-		self.fail('Finish the test!')
+		"""
 		
 		# user enters a second to-do item, Make pie
 		# at enter, page lists
@@ -46,12 +52,21 @@ class NewVisitorTest(unittest.TestCase):
 		# 2: Make pie
 		# and an invite for to-do entry
 		# and a unique url for user to-do list
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox.send_keys('Make pie')
+		inputbox.send_keys(Keys.ENTER)
 
-# user follows unique url and sees her list
-# 1: Buy apples
-# 2: Make pie
-# and an invite for to-do entry
-# and a unique url for user to-do list
+		table = self.browser.find_element_by_id('id_list_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertIn('2: Make pie', [row.text for row in rows])
+
+		self.fail('Finish the test!')
+
+		# user follows unique url and sees her list
+		# 1: Buy apples
+		# 2: Make pie
+		# and an invite for to-do entry
+		# and a unique url for user to-do list
 
 if __name__ == '__main__':
 	unittest.main(warnings='ignore')
