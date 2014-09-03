@@ -14,7 +14,6 @@ class NewVisitorTest(unittest.TestCase):
 		self.browser.get('http://localhost:8000')
 
 		# notice the page title and header mention to-do lists
-		assert 'Django' in self.browser.title
 		self.assertIn('To-Do', self.browser.title)
 		self.fail("Finish the test!")
 
