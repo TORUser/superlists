@@ -27,15 +27,16 @@ class NewVisitorTest(unittest.TestCase):
 		# and a unique url for user to-do list
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		self.assertEqual(
-			inputbox.get_attribute('placeholder'),
-			'Enter a to-do item'
+				inputbox.get_attribute('placeholder'),
+				'Enter a to-do item'
 		)
+		
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
-		table = self.browswer.find_element_by('id_list_table')
+		table = self.browser.find_element_by_id('id_list_table')
 		rows = table.find_elements_by_tag_name('tr')
 		self.assertTrue(
-			any(row.text == '1: Buy apples' for row in rows)
+			any(row.text == '1: Buy apples' for row in rows), "New to-do item did not appear in table"
 		)
 		self.fail('Finish the test!')
 		
