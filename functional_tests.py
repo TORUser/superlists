@@ -24,6 +24,7 @@ class NewVisitorTest(unittest.TestCase):
 # and an invite for to-do entry
 # and a unique url for user to-do list
 
+
 # user enters a second to-do item, Make pie
 # at enter, page lists
 # 1: Buy apples
