@@ -36,12 +36,18 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
+		
+		# IS Edith's url available?
+		edith_list_url = self.browser.current_url
+		self.assertRegex(edith_list_url, '/lists/.+')
 
-		self.check_for_row_in_list_table('1: Buy apples')
+
+		# self.check_for_row_in_list_table('1: Buy apples')
 
 		# import time
 		# time.sleep(10)
 
+		#  There is still a text box for adding more items, Edith adds: Make pie
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		inputbox.send_keys('Make pie')
 		inputbox.send_keys(Keys.ENTER)
@@ -53,11 +59,37 @@ class NewVisitorTest(LiveServerTestCase):
 			any(row.text == '1: Buy apples' for row in rows), "New to-do item did not appear in table -- its text was:\n%s" % (table.text,)
 		)
 		"""
-		
-		self.fail('Finish the test!')
 
 		# user follows unique url and sees her list remembered
 		# 1: Buy apples
 		# 2: Make pie
-		# and an invite for to-do entry
+		# 3: Eat pie 
 		# and a unique url for user to-do list
+		
+		## New browser session
+		self.browser.quit()
+		self.browser = webdriver.Firefox()
+
+		# new user, Bobby should not see Edith's list
+		self.browser.get(self.live_server_url)
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.asserNotIn('Buy apples', page_text)
+		
+		# Bobby starts new list
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox.send_keys('Buy lettuce')
+		inputbox.send_keys(Keys.ENTER)
+		
+		# Bobby gets his own url
+		bobby_list_url = self.browser.current_url
+		self.assertRegex(bobby_list_url, '/lists/.+')
+		
+		# Do Bobby and Edith have the SAME URL, they should not
+		self.assertNotEqual(bobby_list_url, edith_list_url)
+		
+		# Satisfied, they go back to sleep
+
+
+		# and end the test
+		self.fail('Finish the test!')
+
