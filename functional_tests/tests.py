@@ -50,7 +50,9 @@ class NewVisitorTest(LiveServerTestCase):
 		#  There is still a text box for adding more items, Edith adds: Make pie
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		inputbox.send_keys('Make pie')
-		inputbox.send_keys(Keys.ENTER)
+		inputbox.send_keys(Keys.ENTER) 
+		
+		# test input
 		self.check_for_row_in_list_table('1: Buy apples')
 		self.check_for_row_in_list_table('2: Make pie')
 
@@ -73,7 +75,7 @@ class NewVisitorTest(LiveServerTestCase):
 		# new user, Bobby should not see Edith's list
 		self.browser.get(self.live_server_url)
 		page_text = self.browser.find_element_by_tag_name('body').text
-		self.asserNotIn('Buy apples', page_text)
+		self.assertNotIn('Buy apples', page_text)
 		
 		# Bobby starts new list
 		inputbox = self.browser.find_element_by_id('id_new_item')
