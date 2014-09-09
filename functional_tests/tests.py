@@ -1,9 +1,24 @@
+import sys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(StaticLiveServerTestCase):
 
+	@classmethod
+	def setUpClass(cls):
+		for arg in sys.argv:
+			if 'liveserver' in arg:
+				cls.server_url = 'http://' + arg.split('=')[1]
+				return
+			super().setUpClass()
+			cls.server_url = cls.live_server_url
+
+	@classmethod
+	def tearDownClass(cls):
+		if cls.server_url == cls.live_server_url:
+			super().tearDownClass()
+			
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(3)
@@ -19,12 +34,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		
 	def test_can_start_a_list_and_retrieve_it_later (self):
 		# checkout homepage for to-do app
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 
 		# notice the page title and header mention to-do lists
-		self.assertIn('To-Do', self.browser.title)
+		self.assertIn('list', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
-		self.assertIn('To-Do', header_text)
+		self.assertIn('list', header_text)
 
 		# upon invite for to-do entry, user enters a to-do item: Buy apples
 		# user enters a second to-do item, Make pie
@@ -34,7 +49,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		# and an invite for to-do entry
 		# and a unique url for user to-do list
 		inputbox = self.browser.find_element_by_id('id_new_item')
-		self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
+		self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a list item')
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
 		
@@ -57,12 +72,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		self.check_for_row_in_list_table('1: Buy apples')
 		self.check_for_row_in_list_table('2: Make pie')
 
-		"""
-		self.assertTrue(
-			any(row.text == '1: Buy apples' for row in rows), "New to-do item did not appear in table -- its text was:\n%s" % (table.text,)
-		)
-		"""
-
 		# user follows unique url and sees her list remembered
 		# 1: Buy apples
 		# 2: Make pie
@@ -75,7 +84,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		self.browser = webdriver.Firefox()
 
 		# new user, Bobby should not see Edith's list
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertNotIn('Buy apples', page_text)
 		
@@ -95,7 +104,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 	def test_layout_and_styling(self):
 		# Edith goes to the home page
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 		self.browser.set_window_size(1024, 768)
 		
 		# She notices the input box is nicely centered
