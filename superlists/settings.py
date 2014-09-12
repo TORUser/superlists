@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -57,25 +57,25 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-# DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # 'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mylist',                                    # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # The following settings are not used with sqlite3:
-        'USER': 'cshaw',
-        'PASSWORD': 'fhcrc-2014',
-        'HOST': '140.107.88.223',                            # Empty for localhost through domain sockets or '127.0.0.1'
-                                                             # for localhost through TCP.
-        'PORT': '5432',                                      # Set to empty string for default.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
     }
 }
+
+# DATABASES = {
+    # 'default': {
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',  # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': 'mylist',                                    # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # # The following settings are not used with sqlite3:
+        # 'USER': 'cshaw',
+        # 'PASSWORD': 'fhcrc-2014',
+        # 'HOST': '140.107.88.223',                            # Empty for localhost through domain sockets or '127.0.0.1'
+                                                             # # for localhost through TCP.
+        # 'PORT': '5432',                                      # Set to empty string for default.
+    # }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -95,4 +95,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
+#STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
