@@ -49,7 +49,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		# and an invite for to-do entry
 		# and a unique url for user to-do list
 		inputbox = self.browser.find_element_by_id('id_new_item')
-		self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a list item')
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
 		
