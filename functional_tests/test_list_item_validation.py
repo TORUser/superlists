@@ -16,20 +16,20 @@ class ItemValidationTest(FunctionalTest):
 		self.assertEqual(error.text, "You can't have an empty list item")
 
 		# She tries again with some text for the item, which now works.
-		self.browser.find_element_by_id('id_new_item').send_keys('Buy Milk\n')
-		self.check_for_row_in_list_table('1:  Buy milk')
+		self.browser.find_element_by_id('id_new_item').send_keys('Buy milk\n')
+		self.check_for_row_in_list_table('1: Buy milk')
 
 		# Perversely, she now decides to submit a second blank list item.
 		self.browser.find_element_by_id('id_new_item').send_keys('\n')
 
 		# She receives a similar warning on the list page.
-		self.check_for_row_in_list_table('1:  Buy milk')
+		self.check_for_row_in_list_table('1: Buy milk')
 		error = self.browser.find_element_by_css_selector('.has-error')
 		self.assertEqual(error.text, "You can't have an empty list item")
 
 		# She can correct the error by filling in some text
 		self.browser.find_element_by_id('id_new_item').send_keys('Make tea\n')
-		self.check_for_row_in_list_table('1:  Buy milk')
-		self.check_for_row_in_list_table('2:  Make tea')
+		self.check_for_row_in_list_table('1: Buy milk')
+		self.check_for_row_in_list_table('2: Make tea')
 		
 		self.fail('This test has not yet been written!')
