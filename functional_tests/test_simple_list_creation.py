@@ -20,7 +20,7 @@ class NewVisitorTest(FunctionalTest):
 		# 2: Make pie
 		# and an invite for to-do entry
 		# and a unique url for user to-do list
-		inputbox = self.get_item_input_box() # inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox = self.get_item_input_box() # inputbox = self.browser.FEBI('id_new_item')
 		inputbox.send_keys('Buy apples')
 		inputbox.send_keys(Keys.ENTER)
 		
@@ -35,7 +35,7 @@ class NewVisitorTest(FunctionalTest):
 		# time.sleep(10)
 
 		#  There is still a text box for adding more items, Edith adds: Make pie
-		inputbox = self.get_item_input_box() # inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox = self.get_item_input_box() # inputbox = self.browser.FEBI('id_new_item')
 		inputbox.send_keys('Make pie')
 		inputbox.send_keys(Keys.ENTER) 
 		
@@ -60,7 +60,7 @@ class NewVisitorTest(FunctionalTest):
 		self.assertNotIn('Buy apples', page_text)
 		
 		# Bobby starts new list
-		inputbox = self.get_item_input_box() # inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox = self.get_item_input_box() # inputbox = self.browser.FEBI('id_new_item')
 		inputbox.send_keys('Buy lettuce')
 		inputbox.send_keys(Keys.ENTER)
 		
